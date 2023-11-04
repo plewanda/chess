@@ -23,5 +23,10 @@ def next_move():
     return jsonify({'fen': game.fen()})
 
 
+@app.teardown_appcontext
+def close_resources(exception):
+    pass
+
+
 if __name__ == "__main__":
     app.run(debug=True)
