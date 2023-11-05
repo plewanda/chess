@@ -1,30 +1,9 @@
-import random
-
-import chess
-import chess.polyglot
 import chess.syzygy
 
 tablebase = chess.syzygy.open_tablebase("./resources/tablebases/3-4-5/")
 
 
-def evaluate_board(board):
-    try:
-        with chess.polyglot.open_reader("./resources/komodo.bin") as reader:
-            move = random.choice(list(reader.find_all(board))).move
-    except IndexError:
-        if piece_count(board) < 6:
-            move = find_best_move(board)
-        else:
-            legal_moves = list(board.legal_moves)
-            move = random.choice(legal_moves)
-    return move
-
-
-def piece_count(board):
-    return len(board.piece_map())
-
-
-def find_best_move(board):
+def find_syzygy_move(board):
     wdl = tablebase.probe_wdl(board)
 
     best_move = None
